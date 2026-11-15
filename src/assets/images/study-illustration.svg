@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 240" fill="none">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#be7eff" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#be7eff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="orbit" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#be7eff" stop-opacity="0.2" />
+      <stop offset="0.5" stop-color="#be7eff" />
+      <stop offset="1" stop-color="#56b0ff" stop-opacity="0.3" />
+    </linearGradient>
+    <linearGradient id="book-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5a6bff" />
+      <stop offset="1" stop-color="#3b2fb8" />
+    </linearGradient>
+    <linearGradient id="book-violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8a5cff" />
+      <stop offset="1" stop-color="#5b33c9" />
+    </linearGradient>
+    <linearGradient id="cap-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7d66ff" />
+      <stop offset="1" stop-color="#4b2fc4" />
+    </linearGradient>
+  </defs>
+
+  <!-- Світіння під стопкою -->
+  <ellipse cx="110" cy="214" rx="100" ry="18" fill="url(#glow)" />
+
+  <!-- Орбіта з двома точками -->
+  <ellipse cx="110" cy="150" rx="104" ry="42" transform="rotate(-28 110 150)" stroke="url(#orbit)" stroke-width="1.5" />
+  <circle cx="18" cy="199" r="3" fill="#a8b8ff" />
+  <circle cx="202" cy="101" r="3" fill="#a8b8ff" />
+
+  <!-- Нижня книга -->
+  <rect x="28" y="172" width="164" height="36" rx="6" fill="url(#book-blue)" />
+  <rect x="40" y="181" width="150" height="18" rx="3" fill="#efe7ff" />
+  <path d="M48 186h130M48 191h130M48 196h110" stroke="#c4b3ee" stroke-width="1.2" />
+
+  <!-- Верхня книга -->
+  <rect x="42" y="136" width="136" height="34" rx="6" fill="url(#book-violet)" />
+  <rect x="54" y="145" width="122" height="16" rx="3" fill="#f3ecff" />
+  <path d="M62 150h100M62 155h100" stroke="#cdbdf2" stroke-width="1.2" />
+
+  <!-- Шапка випускника -->
+  <path d="M70 114v20c0 13 80 13 80 0v-20l-40 16z" fill="#35248f" />
+  <path d="M110 78l80 26-80 26-80-26z" fill="url(#cap-top)" stroke="#a8b8ff" stroke-opacity="0.5" />
+  <path d="M110 104l66 8v22" stroke="#c9b8ff" stroke-width="2" stroke-linecap="round" />
+  <rect x="172" y="132" width="9" height="13" rx="2" fill="#a8b8ff" />
+  <circle cx="110" cy="104" r="3.5" fill="#c9b8ff" />
+
+  <!-- Іскорки -->
+  <path d="M196 30l2.5 7.5L206 40l-7.5 2.5L196 50l-2.5-7.5L186 40l7.5-2.5z" fill="#c9b8ff" />
+  <path d="M24 56l1.5 4.5L30 62l-4.5 1.5L24 68l-1.5-4.5L18 62l4.5-1.5z" fill="#a8b8ff" />
+</svg>
