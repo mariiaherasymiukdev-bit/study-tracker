@@ -1,3 +1,16 @@
 import "@fontsource-variable/inter";
 
-console.log("Study Tracker is running");
+import { initCalendar, renderCalendar } from "./calendar.js";
+import { getSessions, getTasks } from "./storage.js";
+import { renderStatistics } from "./statistics.js";
+
+function render() {
+  const tasks = getTasks();
+  const sessions = getSessions();
+
+  renderStatistics(tasks, sessions);
+  renderCalendar(tasks);
+}
+
+initCalendar();
+render();

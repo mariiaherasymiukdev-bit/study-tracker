@@ -1,0 +1,167 @@
+@use "../utils/vars" as *;
+
+.calendar {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+  gap: 2rem;
+  overflow: hidden;
+
+  // М'яке фіолетове світіння в правому нижньому куті
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 40%;
+    height: 70%;
+    background: radial-gradient(ellipse at 100% 100%, rgba($color-purple, 0.45), transparent 70%);
+    pointer-events: none;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__icon {
+    color: $color-lavender;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  &__nav-btn {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    color: $color-text-muted;
+    border-radius: 50%;
+    transition:
+      background $transition,
+      color $transition;
+
+    &:hover {
+      background: $glass-bg-strong;
+      color: $color-text;
+    }
+  }
+
+  &__days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  &__day {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 6.25rem;
+    padding-top: 1rem;
+    background: $glass-bg-subtle;
+    border: 1px solid $glass-border-subtle;
+    border-radius: $radius-md;
+
+    &--today {
+      background: rgba($color-purple, 0.25);
+      border-color: rgba($color-purple, 0.6);
+    }
+  }
+
+  &__weekday {
+    font-size: 0.9375rem;
+    color: $color-text-muted;
+  }
+
+  &__date {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  &__dot {
+    position: absolute;
+    right: 0;
+    bottom: 1rem;
+    left: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0 auto;
+    background: $color-purple;
+    border-radius: 50%;
+  }
+
+  &__focus {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    border-left: 1px solid $glass-border-subtle;
+
+    // Декоративна іскра
+    &::after {
+      content: "";
+      position: absolute;
+      top: 55%;
+      right: 0.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: $color-lavender;
+      clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    }
+  }
+
+  &__today {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    border-radius: $radius-pill;
+    transition:
+      background $transition,
+      border-color $transition;
+
+    &:hover {
+      background: $glass-bg-strong;
+      border-color: $glass-border-strong;
+    }
+  }
+
+  &__today-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: $color-gold;
+  }
+
+  &__focus-title {
+    margin-top: auto;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  &__focus-text {
+    max-width: 11rem;
+    margin-top: 0.5rem;
+    font-size: 1.0625rem;
+    color: $color-lavender;
+  }
+}

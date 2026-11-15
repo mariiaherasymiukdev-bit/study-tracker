@@ -1,3 +1,4 @@
+@use "../utils/vars" as *;
 @use "../utils/mixins" as *;
 
 // Спільна «скляна» поверхня для великих блоків дашборда
@@ -9,4 +10,70 @@
   @include glass;
 
   padding: 1.5rem;
+}
+
+// Статистика
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $layout-gap;
+}
+
+.stat-card {
+  @include glass;
+
+  position: relative;
+  padding: 1.5rem;
+  overflow: hidden;
+  transition: transform $transition;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
+  // Світла «хвиля» в правому нижньому куті
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 55%;
+    height: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+    border-radius: 100% 0 0 0;
+  }
+
+  &__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  &__label {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  &--tasks {
+    background: linear-gradient(135deg, rgba($color-blue, 0.55), rgba($color-purple, 0.35));
+  }
+
+  &--completed {
+    background: linear-gradient(135deg, rgba($color-lavender, 0.35), rgba($color-purple, 0.6));
+  }
+
+  &--time {
+    background: linear-gradient(135deg, rgba($color-purple, 0.5), rgba($color-pink, 0.75));
+  }
+
+  &--progress {
+    background: linear-gradient(135deg, rgba($color-lavender, 0.35), rgba($color-blue, 0.65));
+  }
 }

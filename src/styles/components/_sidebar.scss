@@ -19,10 +19,9 @@
     gap: 0.5rem;
   }
 
-  &__logo-icon {
-    width: 3.5rem;
-    height: 3.5rem;
-    color: $color-purple;
+   &__logo-icon {
+    width: 4rem;
+    height: auto;
     filter: drop-shadow(0 0 12px rgba($color-purple, 0.6));
   }
 

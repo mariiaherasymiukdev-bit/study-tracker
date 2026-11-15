@@ -13,19 +13,6 @@
     <!-- SVG-спрайт з іконками (невидимий) -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <symbol
-        id="icon-cap"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M22 10L12 5 2 10l10 5 10-5z" />
-        <path d="M6 12v5c3 2 9 2 12 0v-5" />
-        <path d="M22 10v6" />
-      </symbol>
-      <symbol
         id="icon-home"
         viewBox="0 0 24 24"
         fill="none"
@@ -294,9 +281,13 @@
       <!-- ========== SIDEBAR ========== -->
       <aside class="sidebar">
         <a class="sidebar__logo" href="#dashboard">
-          <svg class="icon sidebar__logo-icon" aria-hidden="true">
-            <use href="#icon-cap" />
-          </svg>
+          <img
+            class="sidebar__logo-icon"
+            src="./assets/images/logo-cap.svg"
+            alt=""
+            width="64"
+            height="56"
+          />
           <span class="sidebar__title">Study Tracker</span>
         </a>
         <p class="sidebar__subtitle">Plan • Learn • Achieve</p>
@@ -470,7 +461,7 @@
 
           <aside class="calendar__focus">
             <button class="calendar__today" type="button" id="calendar-today">
-              <svg class="icon" aria-hidden="true">
+              <svg class="icon calendar__today-icon" aria-hidden="true">
                 <use href="#icon-star" />
               </svg>
               Today
