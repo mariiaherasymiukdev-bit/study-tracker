@@ -1,0 +1,12 @@
+@use "../utils/mixins" as *;
+
+// Спільна «скляна» поверхня для великих блоків дашборда
+.sidebar,
+.calendar,
+.tasks,
+.timer,
+.motivation {
+  @include glass;
+
+  padding: 1.5rem;
+}

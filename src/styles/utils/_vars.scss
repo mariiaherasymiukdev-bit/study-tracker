@@ -1,2 +1,23 @@
-$color-bg: #1a0a2a;
+// Colors
+$color-bg: #0a0a0a;
+$color-purple: #be7eff;
+$color-blue: #56b0ff;
 $color-text: #ffffff;
+$color-text-muted: rgba(255, 255, 255, 0.7);
+
+// Glass
+$glass-bg: rgba(255, 255, 255, 0.08);
+$glass-bg-strong: rgba(255, 255, 255, 0.1);
+$glass-border: rgba(255, 255, 255, 0.25);
+$glass-border-strong: rgba(255, 255, 255, 0.3);
+$glass-blur: 18px;
+$shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.35);
+$shadow-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+// Shape & motion
+$radius-lg: 28px;
+$radius-md: 18px;
+$transition: 0.3s ease;
+
+// Typography
+$font-main: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;

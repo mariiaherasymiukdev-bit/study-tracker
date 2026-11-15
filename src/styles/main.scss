@@ -1,16 +1,99 @@
 @use "utils/vars" as *;
+@use "components/cards";
+
+// Reset
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+// Base
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 
 body {
+  min-height: 100vh;
   margin: 0;
   background: $color-bg;
   color: $color-text;
-  font-family: sans-serif;
+  font-family: $font-main;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+
+  // Фонове підсвічування: фіолетове зліва, синє справа зверху
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        circle at 12% 8%,
+        rgba($color-purple, 0.3),
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 85% 15%,
+        rgba($color-blue, 0.15),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 15% 95%,
+        rgba($color-purple, 0.25),
+        transparent 40%
+      );
+    pointer-events: none;
+  }
 }
 
-// ТИМЧАСОВО: перенесемо на Stage 3
+:focus-visible {
+  outline: 2px solid $color-purple;
+  outline-offset: 2px;
+}
+
+// Utilities
 .icon {
-  width: 24px;
-  height: 24px;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .visually-hidden {

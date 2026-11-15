@@ -1,0 +1,10 @@
+@use "vars" as *;
+
+@mixin glass($radius: $radius-lg) {
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  border-radius: $radius;
+  box-shadow: $shadow-glass, $shadow-highlight;
+  -webkit-backdrop-filter: blur($glass-blur);
+  backdrop-filter: blur($glass-blur);
+}
