@@ -6,3 +6,18 @@ body {
   color: $color-text;
   font-family: sans-serif;
 }
+
+// ТИМЧАСОВО: перенесемо на Stage 3
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

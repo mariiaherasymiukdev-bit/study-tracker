@@ -3,11 +3,377 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Study Tracker: plan, learn, achieve." />
     <title>Study Tracker</title>
     <link rel="stylesheet" href="./styles/main.scss" />
     <script type="module" src="./scripts/main.js"></script>
   </head>
+
   <body>
-    <h1>Study Tracker</h1>
+    <!-- SVG-спрайт з іконками (невидимий) -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <symbol id="icon-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10L12 5 2 10l10 5 10-5z" />
+        <path d="M6 12v5c3 2 9 2 12 0v-5" />
+        <path d="M22 10v6" />
+      </symbol>
+      <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </symbol>
+      <symbol id="icon-check-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 11 12 14 22 4" />
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </symbol>
+      <symbol id="icon-bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10" />
+        <line x1="12" y1="20" x2="12" y2="4" />
+        <line x1="6" y1="20" x2="6" y2="14" />
+      </symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </symbol>
+      <symbol id="icon-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </symbol>
+      <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9" />
+      </symbol>
+      <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+      </symbol>
+      <symbol id="icon-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+        <polyline points="9 14 11 16 15 12" />
+      </symbol>
+      <symbol id="icon-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </symbol>
+      <symbol id="icon-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="6" />
+        <circle cx="12" cy="12" r="2" />
+      </symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </symbol>
+      <symbol id="icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+      </symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+        <path d="M10 11v6" />
+        <path d="M14 11v6" />
+        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      </symbol>
+      <symbol id="icon-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1 4 1 10 7 10" />
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+      </symbol>
+      <symbol id="icon-play" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="6 3 20 12 6 21 6 3" />
+      </symbol>
+      <symbol id="icon-pause" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="4" width="4" height="16" />
+        <rect x="14" y="4" width="4" height="16" />
+      </symbol>
+      <symbol id="icon-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v5a5 5 0 0 1-10 0z" />
+        <path d="M17 5h3v2a3 3 0 0 1-3 3" />
+        <path d="M7 5H4v2a3 3 0 0 0 3 3" />
+        <path d="M12 14v4" />
+        <path d="M8 21h8" />
+      </symbol>
+    </svg>
+
+    <div class="app">
+      <!-- ========== SIDEBAR ========== -->
+      <aside class="sidebar">
+        <a class="sidebar__logo" href="#dashboard">
+          <svg class="icon sidebar__logo-icon" aria-hidden="true"><use href="#icon-cap" /></svg>
+          <span class="sidebar__title">Study Tracker</span>
+        </a>
+        <p class="sidebar__subtitle">Plan • Learn • Achieve</p>
+
+        <nav class="sidebar__nav" aria-label="Main navigation">
+          <ul class="nav">
+            <li class="nav__item">
+              <a class="nav__link nav__link--active" href="#dashboard" aria-current="page">
+                <svg class="icon nav__icon" aria-hidden="true"><use href="#icon-home" /></svg>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" href="#tasks">
+                <svg class="icon nav__icon" aria-hidden="true"><use href="#icon-check-square" /></svg>
+                Tasks
+              </a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" href="#calendar">
+                <svg class="icon nav__icon" aria-hidden="true"><use href="#icon-calendar" /></svg>
+                Calendar
+              </a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" href="#statistics">
+                <svg class="icon nav__icon" aria-hidden="true"><use href="#icon-bars" /></svg>
+                Statistics
+              </a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link" href="#settings">
+                <svg class="icon nav__icon" aria-hidden="true"><use href="#icon-settings" /></svg>
+                Settings
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Декоративна ілюстрація (книги й шапка), додамо на Stage 4 -->
+        <div class="sidebar__illustration" aria-hidden="true"></div>
+      </aside>
+
+      <!-- ========== MAIN ========== -->
+      <main class="dashboard" id="dashboard">
+        <!-- Header -->
+        <header class="header">
+          <div class="header__text">
+            <h1 class="header__title">Dashboard</h1>
+            <p class="header__subtitle">Your study progress at a glance ✨</p>
+          </div>
+
+          <div class="header__actions">
+            <button class="header__bell" type="button" aria-label="Notifications">
+              <svg class="icon" aria-hidden="true"><use href="#icon-bell" /></svg>
+            </button>
+            <button class="header__user" type="button" aria-label="User menu" aria-haspopup="menu" aria-expanded="false">
+              <span class="header__avatar" aria-hidden="true">🐱</span>
+              <svg class="icon header__chevron" aria-hidden="true"><use href="#icon-chevron-down" /></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Statistics cards -->
+        <section class="stats" id="statistics" aria-label="Study statistics">
+          <article class="stat-card stat-card--tasks">
+            <svg class="icon stat-card__icon" aria-hidden="true"><use href="#icon-clipboard" /></svg>
+            <p class="stat-card__value" data-stat="total">0</p>
+            <p class="stat-card__label">Total Tasks</p>
+          </article>
+
+          <article class="stat-card stat-card--completed">
+            <svg class="icon stat-card__icon" aria-hidden="true"><use href="#icon-check-circle" /></svg>
+            <p class="stat-card__value" data-stat="completed">0</p>
+            <p class="stat-card__label">Completed</p>
+          </article>
+
+          <article class="stat-card stat-card--time">
+            <svg class="icon stat-card__icon" aria-hidden="true"><use href="#icon-clock" /></svg>
+            <p class="stat-card__value" data-stat="time">0h 0m</p>
+            <p class="stat-card__label">Study Time</p>
+          </article>
+
+          <article class="stat-card stat-card--progress">
+            <svg class="icon stat-card__icon" aria-hidden="true"><use href="#icon-target" /></svg>
+            <p class="stat-card__value" data-stat="progress">0%</p>
+            <p class="stat-card__label">Progress</p>
+          </article>
+        </section>
+
+        <!-- Weekly calendar -->
+        <section class="calendar" id="calendar" aria-labelledby="calendar-title">
+          <div class="calendar__main">
+            <div class="calendar__header">
+              <svg class="icon calendar__icon" aria-hidden="true"><use href="#icon-calendar" /></svg>
+              <h2 class="calendar__title" id="calendar-title">This Month</h2>
+              <div class="calendar__nav">
+                <button class="calendar__nav-btn" type="button" data-week="prev" aria-label="Previous week">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-chevron-left" /></svg>
+                </button>
+                <button class="calendar__nav-btn" type="button" data-week="next" aria-label="Next week">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-chevron-right" /></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- 7 днів створить calendar.js -->
+            <ol class="calendar__days" id="calendar-days"></ol>
+          </div>
+
+          <aside class="calendar__focus">
+            <button class="calendar__today" type="button" id="calendar-today">
+              <svg class="icon" aria-hidden="true"><use href="#icon-star" /></svg>
+              Today
+            </button>
+            <h3 class="calendar__focus-title">Focus on your goals!</h3>
+            <p class="calendar__focus-text">Small steps make big progress ♡</p>
+          </aside>
+        </section>
+
+        <!-- Tasks + Timer -->
+        <div class="dashboard__bottom">
+          <!-- My Tasks -->
+          <section class="tasks" id="tasks" aria-labelledby="tasks-title">
+            <div class="tasks__header">
+              <h2 class="tasks__title" id="tasks-title">
+                <svg class="icon" aria-hidden="true"><use href="#icon-check-circle" /></svg>
+                My Tasks
+              </h2>
+
+              <div class="tasks__filters" role="group" aria-label="Filter tasks">
+                <button class="tasks__filter" type="button" data-filter="all" aria-pressed="true">All</button>
+                <button class="tasks__filter" type="button" data-filter="active" aria-pressed="false">Active</button>
+                <button class="tasks__filter" type="button" data-filter="completed" aria-pressed="false">Completed</button>
+              </div>
+            </div>
+
+            <form class="task-form" id="task-form">
+              <div class="task-form__row">
+                <span class="task-form__icon" aria-hidden="true">
+                  <svg class="icon"><use href="#icon-plus" /></svg>
+                </span>
+                <label class="visually-hidden" for="task-title">Task name</label>
+                <input class="task-form__input" id="task-title" name="title" type="text" placeholder="Add new task..." maxlength="80" autocomplete="off" required />
+                <button class="task-form__submit" id="task-submit" type="submit">Add</button>
+                <button class="task-form__cancel" id="task-cancel" type="button" hidden>Cancel</button>
+              </div>
+
+              <div class="task-form__options">
+                <div class="task-form__field">
+                  <label class="task-form__label" for="task-category">Category</label>
+                  <select class="task-form__control" id="task-category" name="category" required>
+                    <option value="javascript">JavaScript</option>
+                    <option value="react">React</option>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="english">English</option>
+                    <option value="project">Project</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div class="task-form__field">
+                  <label class="task-form__label" for="task-minutes">Time (min)</label>
+                  <input class="task-form__control" id="task-minutes" name="minutes" type="number" min="5" max="600" step="5" value="30" required />
+                </div>
+
+                <div class="task-form__field">
+                  <label class="task-form__label" for="task-date">Date</label>
+                  <input class="task-form__control" id="task-date" name="date" type="date" required />
+                </div>
+              </div>
+
+              <p class="task-form__error" id="task-form-error" role="alert" hidden></p>
+            </form>
+
+            <!-- Завдання додає tasks.js -->
+            <ul class="task-list" id="task-list"></ul>
+            <p class="tasks__empty" id="tasks-empty" hidden>No tasks here yet. Add your first one!</p>
+          </section>
+
+          <!-- Right column: Timer + Motivation -->
+          <div class="dashboard__side">
+            <section class="timer" id="timer" aria-labelledby="timer-title">
+              <h2 class="timer__title" id="timer-title">
+                <svg class="icon" aria-hidden="true"><use href="#icon-bars" /></svg>
+                Pomodoro Timer
+              </h2>
+
+              <div class="timer__body">
+                <div class="timer__dial">
+                  <svg class="timer__ring" viewBox="0 0 200 200" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="timer-gradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#a8b8ff" />
+                        <stop offset="100%" stop-color="#be7eff" />
+                      </linearGradient>
+                    </defs>
+                    <circle class="timer__track" cx="100" cy="100" r="90" />
+                    <circle class="timer__progress" id="timer-progress" cx="100" cy="100" r="90" />
+                  </svg>
+
+                  <p class="timer__time" id="timer-time" role="timer">25:00</p>
+                  <button class="timer__toggle" id="timer-toggle" type="button" aria-label="Start timer">
+                    <svg class="icon" id="timer-toggle-icon" aria-hidden="true"><use href="#icon-play" /></svg>
+                  </button>
+                </div>
+
+                <div class="timer__modes" role="group" aria-label="Timer mode">
+                  <button class="timer__mode" type="button" data-mode="pomodoro" data-minutes="25" aria-pressed="true">
+                    Pomodoro
+                  </button>
+                  <button class="timer__mode" type="button" data-mode="short" data-minutes="5" aria-pressed="false">
+                    Short Break <span class="timer__mode-hint">(5 min)</span>
+                  </button>
+                  <button class="timer__mode" type="button" data-mode="long" data-minutes="15" aria-pressed="false">
+                    Long Break <span class="timer__mode-hint">(15 min)</span>
+                  </button>
+                </div>
+              </div>
+
+              <button class="timer__reset" id="timer-reset" type="button">
+                <svg class="icon" aria-hidden="true"><use href="#icon-reset" /></svg>
+                Reset
+              </button>
+
+              <!-- Повідомлення про завершення сесії -->
+              <p class="timer__status" id="timer-status" role="status" aria-live="polite"></p>
+            </section>
+
+            <section class="motivation" aria-label="Motivation">
+              <svg class="icon motivation__icon" aria-hidden="true"><use href="#icon-trophy" /></svg>
+              <div class="motivation__text">
+                <p class="motivation__title">You're doing great!</p>
+                <p class="motivation__subtitle">Keep going towards your goals.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Шаблон одного завдання: tasks.js клонує його -->
+    <template id="task-template">
+      <li class="task">
+        <label class="task__check">
+          <input class="task__checkbox" type="checkbox" />
+          <span class="task__title"></span>
+        </label>
+        <span class="task__badge"></span>
+        <span class="task__time">
+          <svg class="icon" aria-hidden="true"><use href="#icon-clock" /></svg>
+          <span class="task__minutes"></span>
+        </span>
+        <button class="task__action" type="button" data-action="edit" aria-label="Edit task">
+          <svg class="icon" aria-hidden="true"><use href="#icon-edit" /></svg>
+        </button>
+        <button class="task__action" type="button" data-action="delete" aria-label="Delete task">
+          <svg class="icon" aria-hidden="true"><use href="#icon-trash" /></svg>
+        </button>
+      </li>
+    </template>
   </body>
 </html>
