@@ -102,3 +102,13 @@
     background: linear-gradient(135deg, rgba($color-lavender, 0.35), rgba($color-blue, 0.65));
   }
 }
+
+// Повідомлення про проблеми зі збереженими даними
+.notice {
+  @include glass($radius-md);
+
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9375rem;
+  color: $color-rose;
+  border-color: rgba($color-rose, 0.5);
+}

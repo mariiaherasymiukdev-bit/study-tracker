@@ -38,16 +38,29 @@ function createDefaultSessions() {
 
 // ---------- Робота з LocalStorage ----------
 
-// Повертає розібрані дані або null, якщо запису немає чи він зіпсований
-function readJson(key) {
+// Повертає { status: "missing" } (запису немає або сховище недоступне),
+// { status: "damaged" } (не розбирається) або { status: "ok", value }
+function readStored(key) {
+  let raw;
+
   try {
-    const raw = localStorage.getItem(key);
-
-    return raw === null ? null : JSON.parse(raw);
+    raw = localStorage.getItem(key);
   } catch (error) {
-    console.warn(`Could not read "${key}" from localStorage:`, error);
+    console.warn(`localStorage is not available for "${key}":`, error);
 
-    return null;
+    return { status: "missing" };
+  }
+
+  if (raw === null) {
+    return { status: "missing" };
+  }
+
+  try {
+    return { status: "ok", value: JSON.parse(raw) };
+  } catch (error) {
+    console.warn(`Stored data for "${key}" is damaged:`, error);
+
+    return { status: "damaged" };
   }
 }
 
@@ -96,10 +109,11 @@ function normalizeTask(item) {
   };
 }
 
+// Повертає { items, skipped }: придатні завдання й кількість відкинутих записів
 function normalizeTasks(items) {
   const seenIds = new Set();
 
-  return items.map(normalizeTask).filter((task) => {
+  const tasks = items.map(normalizeTask).filter((task) => {
     if (task === null || seenIds.has(task.id)) {
       return false; // непридатний запис або повтор id
     }
@@ -108,10 +122,12 @@ function normalizeTasks(items) {
 
     return true;
   });
+
+  return { items: tasks, skipped: items.length - tasks.length };
 }
 
 function normalizeSessions(items) {
-  return items
+  const sessions = items
     .filter(
       (item) =>
         item !== null &&
@@ -121,29 +137,43 @@ function normalizeSessions(items) {
         item.minutes > 0,
     )
     .map(({ date, minutes }) => ({ date, minutes }));
+
+  return { items: sessions, skipped: items.length - sessions.length };
 }
 
 // ---------- Публічний інтерфейс ----------
 
+// Обидві функції повертають { items, issue }, де issue = null | "damaged" | "skipped"
 export function getTasks() {
-  const stored = readJson(TASKS_KEY);
+  const stored = readStored(TASKS_KEY);
 
-  // Немає запису (перший візит) або він зіпсований: показуємо демо
-  if (!Array.isArray(stored)) {
-    return createDefaultTasks();
+  if (stored.status === "missing") {
+    return { items: createDefaultTasks(), issue: null }; // перший запуск
   }
 
-  return normalizeTasks(stored);
+  if (stored.status === "damaged" || !Array.isArray(stored.value)) {
+    return { items: [], issue: "damaged" };
+  }
+
+  const { items, skipped } = normalizeTasks(stored.value);
+
+  return { items, issue: skipped > 0 ? "skipped" : null };
 }
 
 export function getSessions() {
-  const stored = readJson(SESSIONS_KEY);
+  const stored = readStored(SESSIONS_KEY);
 
-  if (!Array.isArray(stored)) {
-    return createDefaultSessions();
+  if (stored.status === "missing") {
+    return { items: createDefaultSessions(), issue: null };
   }
 
-  return normalizeSessions(stored);
+  if (stored.status === "damaged" || !Array.isArray(stored.value)) {
+    return { items: [], issue: "damaged" };
+  }
+
+  const { items, skipped } = normalizeSessions(stored.value);
+
+  return { items, issue: skipped > 0 ? "skipped" : null };
 }
 
 export function saveTasks(tasks) {

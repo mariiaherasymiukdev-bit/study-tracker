@@ -417,5 +417,5 @@ export function initTasks(initialTasks, changeHandler) {
 
   bindEvents();
   resetForm();
-  commit();
+  renderTasks(); // лише малюємо список; обробник викликається після змін користувача
 }

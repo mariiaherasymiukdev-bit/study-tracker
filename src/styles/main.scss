@@ -1,4 +1,5 @@
 @use "utils/vars" as *;
+@use "utils/mixins" as *;
 @use "utils/animations";
 @use "components/cards";
 @use "components/sidebar";
@@ -6,6 +7,7 @@
 @use "components/calendar";
 @use "components/tasks";
 @use "components/timer";
+@use "responsive/media";
 
 // Reset
 *,
@@ -133,10 +135,5 @@ body {
 }
 
 .visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  @include visually-hidden;
 }

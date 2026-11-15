@@ -8,3 +8,13 @@
   -webkit-backdrop-filter: blur($glass-blur);
   backdrop-filter: blur($glass-blur);
 }
+
+// Текст не видно, але його читають скрінрідери
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
