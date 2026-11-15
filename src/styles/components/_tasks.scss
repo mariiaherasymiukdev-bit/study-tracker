@@ -129,6 +129,17 @@ $badge-colors: (
     }
   }
 
+  &__control {
+    color-scheme: dark;
+    color: $color-text;
+    background-color: $glass-bg;
+
+    option {
+      color: $color-text;
+      background-color: #37373b;
+    }
+  }
+
   &__input,
   &__control {
     min-width: 0;

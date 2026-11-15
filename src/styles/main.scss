@@ -1,14 +1,16 @@
 @use "utils/vars" as *;
 @use "utils/mixins" as *;
 @use "utils/animations";
+
 @use "components/cards";
 @use "components/sidebar";
 @use "components/header";
 @use "components/calendar";
 @use "components/tasks";
 @use "components/timer";
-@use "responsive/media";
+@use "components/layout";
 
+@use "responsive/media";
 // Reset
 *,
 *::before,
@@ -103,28 +105,6 @@ body {
 :focus-visible {
   outline: 2px solid $color-purple;
   outline-offset: 2px;
-}
-
-// Layout
-.dashboard {
-  display: grid;
-  grid-template-columns: minmax(0, $content-max-width);
-  justify-content: center;
-  gap: $layout-gap;
-  margin-left: $sidebar-width + $layout-gap * 2;
-  padding: $layout-gap $layout-gap $layout-gap 0;
-
-  &__bottom {
-    display: grid;
-    grid-template-columns: minmax(0, 1.37fr) minmax(0, 1fr);
-    gap: $layout-gap;
-  }
-
-  &__side {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    gap: 1rem;
-  }
 }
 
 // Utilities
