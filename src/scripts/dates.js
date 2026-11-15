@@ -25,3 +25,14 @@ export function getWeekStart(date) {
 
   return result;
 }
+
+// Чи є рядок справжньою датою "YYYY-MM-DD" (відхиляє, наприклад, "2026-02-31")
+export function isDateKey(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return false;
+  }
+
+  const date = new Date(`${value}T00:00:00`);
+
+  return !Number.isNaN(date.getTime()) && toDateKey(date) === value;
+}

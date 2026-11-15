@@ -3,10 +3,23 @@ import { toDateKey } from "./dates.js";
 const TICK_INTERVAL_MS = 250;
 const RING_LENGTH = 2 * Math.PI * 90; // довжина кола з r="90" в SVG
 
+const MODE_LABELS = {
+  pomodoro: "Pomodoro",
+  short: "Short Break",
+  long: "Long Break",
+};
+
+// Який режим вмикається після завершення поточного (без автозапуску)
+const NEXT_MODE = {
+  pomodoro: "short",
+  short: "pomodoro",
+  long: "pomodoro",
+};
+
 const FINISH_MESSAGES = {
-  pomodoro: "Focus session complete! Time for a break.",
-  short: "Break is over. Ready to focus?",
-  long: "Break is over. Ready to focus?",
+  pomodoro: "Focus session complete! Your short break is ready. Press Play.",
+  short: "Break is over. Ready to focus? Press Play.",
+  long: "Break is over. Ready to focus? Press Play.",
 };
 
 const timerSection = document.querySelector("#timer");
@@ -17,6 +30,8 @@ const toggleIcon = document.querySelector("#timer-toggle-icon use");
 const resetButton = document.querySelector("#timer-reset");
 const statusElement = document.querySelector("#timer-status");
 const modeButtons = document.querySelectorAll("[data-mode]");
+const modeDialog = document.querySelector("#mode-dialog");
+const modeText = document.querySelector("#mode-text");
 
 // Тривалість режимів у мс береться з data-minutes у HTML
 const durations = Object.fromEntries(
@@ -28,6 +43,7 @@ let totalMs = durations[currentMode];
 let remainingMs = totalMs;
 let endTimestamp = null; // коли таймер має дійти до нуля (лише коли йде відлік)
 let intervalId = null; // не null = таймер зараз іде
+let pendingMode = null; // режим, який чекає підтвердження
 let onSessionComplete = () => {};
 
 // ---------- Відображення ----------
@@ -60,6 +76,74 @@ function clearStatus() {
   timerSection.classList.remove("timer--finished");
 }
 
+// ---------- Режими ----------
+
+// Вмикає режим «в тиші»: без зупинки відліку, статусів і перемальовування
+function applyMode(mode) {
+  currentMode = mode;
+  totalMs = durations[mode];
+  remainingMs = totalMs;
+
+  modeButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.mode === mode));
+  });
+}
+
+// Перемикання з боку користувача (після підтвердження, якщо відлік ішов)
+function switchMode(mode) {
+  stopTicking();
+  applyMode(mode);
+  clearStatus();
+  render();
+}
+
+function getModeWarning(mode) {
+  const note = currentMode === "pomodoro" ? " It won't count towards your Study Time." : "";
+
+  return `Switch to ${MODE_LABELS[mode]}? The current session will be cancelled.${note}`;
+}
+
+function requestModeChange(mode) {
+  if (mode === currentMode) {
+    return;
+  }
+
+  if (intervalId === null) {
+    switchMode(mode);
+    return;
+  }
+
+  pendingMode = mode;
+  modeText.textContent = getModeWarning(mode);
+  modeDialog.returnValue = ""; // скидаємо, щоб Esc не «успадкував» старе значення
+  modeDialog.showModal();
+}
+
+function handleModeDialogClose() {
+  const mode = pendingMode;
+
+  pendingMode = null;
+
+  if (modeDialog.returnValue === "confirm" && mode !== null) {
+    switchMode(mode);
+  }
+}
+
+function handleModeDialogBackdropClick(event) {
+  if (event.target === modeDialog) {
+    modeDialog.close();
+  }
+}
+
+// Закриває вікно без підтвердження (наприклад, коли сесія завершилась сама)
+function closeModeDialog() {
+  pendingMode = null;
+
+  if (modeDialog.open) {
+    modeDialog.close();
+  }
+}
+
 // ---------- Керування відліком ----------
 
 function stopTicking() {
@@ -68,20 +152,28 @@ function stopTicking() {
   endTimestamp = null;
 }
 
+// Єдине місце, де сесія вважається завершеною й записується
 function finishSession() {
-  stopTicking();
-  remainingMs = 0;
-  showStatus(FINISH_MESSAGES[currentMode]);
+  const finishedMode = currentMode;
+  const finishedMinutes = totalMs / 60000;
 
-  // Рахуємо лише завершені фокус-сесії
-  if (currentMode === "pomodoro") {
-    onSessionComplete({ date: toDateKey(new Date()), minutes: totalMs / 60000 });
+  stopTicking();
+  closeModeDialog();
+
+  if (finishedMode === "pomodoro") {
+    onSessionComplete({ date: toDateKey(new Date()), minutes: finishedMinutes });
   }
 
+  applyMode(NEXT_MODE[finishedMode]);
+  showStatus(FINISH_MESSAGES[finishedMode]);
   render();
 }
 
 function tick() {
+  if (endTimestamp === null) {
+    return; // таймер уже зупинено
+  }
+
   remainingMs = Math.max(0, endTimestamp - Date.now());
   render();
 
@@ -93,10 +185,6 @@ function tick() {
 function start() {
   if (intervalId !== null) {
     return; // таймер уже йде: другий не запускаємо
-  }
-
-  if (remainingMs <= 0) {
-    remainingMs = totalMs; // після завершення новий запуск починає з початку
   }
 
   clearStatus();
@@ -122,24 +210,6 @@ function reset() {
   render();
 }
 
-function setMode(mode) {
-  if (mode === currentMode) {
-    return;
-  }
-
-  stopTicking(); // перемикання під час відліку скасовує поточну сесію
-  currentMode = mode;
-  totalMs = durations[mode];
-  remainingMs = totalMs;
-
-  modeButtons.forEach((button) => {
-    button.setAttribute("aria-pressed", String(button.dataset.mode === mode));
-  });
-
-  clearStatus();
-  render();
-}
-
 // Викликається один раз. sessionCompleteHandler отримує { date, minutes }.
 export function initTimer(sessionCompleteHandler) {
   onSessionComplete = sessionCompleteHandler;
@@ -156,8 +226,11 @@ export function initTimer(sessionCompleteHandler) {
   resetButton.addEventListener("click", reset);
 
   modeButtons.forEach((button) => {
-    button.addEventListener("click", () => setMode(button.dataset.mode));
+    button.addEventListener("click", () => requestModeChange(button.dataset.mode));
   });
+
+  modeDialog.addEventListener("close", handleModeDialogClose);
+  modeDialog.addEventListener("click", handleModeDialogBackdropClick);
 
   render();
 }

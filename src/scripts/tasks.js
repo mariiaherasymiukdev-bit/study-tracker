@@ -1,4 +1,4 @@
-import { toDateKey } from "./dates.js";
+import { isDateKey, toDateKey } from "./dates.js";
 
 const CATEGORY_LABELS = {
   javascript: "JavaScript",
@@ -19,7 +19,6 @@ const EMPTY_MESSAGES = {
 const MAX_TITLE_LENGTH = 80;
 const MIN_MINUTES = 5;
 const MAX_MINUTES = 600;
-const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 const form = document.querySelector("#task-form");
 const titleInput = document.querySelector("#task-title");
@@ -208,7 +207,7 @@ function validateValues(values) {
     };
   }
 
-  if (!DATE_PATTERN.test(values.date)) {
+  if (!isDateKey(values.date)) {
     return { message: "Please choose a date.", field: dateInput };
   }
 

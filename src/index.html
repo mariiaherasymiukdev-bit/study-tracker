@@ -763,6 +763,29 @@
       </form>
     </dialog>
 
+    <dialog
+      class="confirm"
+      id="mode-dialog"
+      aria-labelledby="mode-title"
+      aria-describedby="mode-text"
+    >
+      <form class="confirm__form" method="dialog">
+        <h2 class="confirm__title" id="mode-title">Switch timer mode?</h2>
+        <p class="confirm__text" id="mode-text"></p>
+        <div class="confirm__actions">
+          <button class="confirm__button" type="submit" value="cancel">
+            Cancel
+          </button>
+          <button
+            class="confirm__button confirm__button--primary"
+            type="submit"
+            value="confirm"
+          >
+            Confirm
+          </button>
+        </div>
+      </form>
+    </dialog>
     <!-- Шаблон одного завдання: tasks.js клонує його -->
     <template id="task-template">
       <li class="task">
