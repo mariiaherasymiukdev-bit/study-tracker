@@ -33,11 +33,14 @@ const errorElement = document.querySelector("#task-form-error");
 const list = document.querySelector("#task-list");
 const emptyMessage = document.querySelector("#tasks-empty");
 const template = document.querySelector("#task-template");
+const confirmDialog = document.querySelector("#confirm-dialog");
+const confirmText = document.querySelector("#confirm-text");
 const filterButtons = document.querySelectorAll("[data-filter]");
 
 let tasks = [];
 let activeFilter = "all";
 let editingId = null;
+let pendingDeleteId = null;
 let onChange = () => {};
 
 // ---------- Допоміжні функції ----------
@@ -50,7 +53,9 @@ function createId() {
 
 // Невідома категорія (наприклад, зі зіпсованих даних) вважається "other"
 function getCategory(task) {
-  return Object.hasOwn(CATEGORY_LABELS, task.category) ? task.category : "other";
+  return Object.hasOwn(CATEGORY_LABELS, task.category)
+    ? task.category
+    : "other";
 }
 
 function getVisibleTasks() {
@@ -133,6 +138,37 @@ function toggleTask(id, completed) {
   commit();
 }
 
+// Показує підтвердження; саме видалення виконується після закриття вікна
+function requestDelete(id) {
+  const task = tasks.find((item) => item.id === id);
+
+  if (!task) {
+    return;
+  }
+
+  pendingDeleteId = id;
+  confirmText.textContent = `“${task.title}” will be permanently removed.`;
+  confirmDialog.returnValue = ""; // скидаємо, інакше Esc може «успадкувати» старе значення
+  confirmDialog.showModal();
+}
+
+function handleConfirmClose() {
+  const id = pendingDeleteId;
+
+  pendingDeleteId = null;
+
+  if (confirmDialog.returnValue === "delete" && id !== null) {
+    deleteTask(id);
+  }
+}
+
+// Клік по затемненому фону (поза вікном) закриває його як Cancel
+function handleConfirmBackdropClick(event) {
+  if (event.target === confirmDialog) {
+    confirmDialog.close();
+  }
+}
+
 // ---------- Форма: поля та валідація ----------
 
 function readFormValues() {
@@ -151,14 +187,21 @@ function validateValues(values) {
   }
 
   if (values.title.length > MAX_TITLE_LENGTH) {
-    return { message: `Task name must be up to ${MAX_TITLE_LENGTH} characters.`, field: titleInput };
+    return {
+      message: `Task name must be up to ${MAX_TITLE_LENGTH} characters.`,
+      field: titleInput,
+    };
   }
 
   if (!Object.hasOwn(CATEGORY_LABELS, values.category)) {
     return { message: "Please choose a category.", field: categorySelect };
   }
 
-  if (!Number.isInteger(values.minutes) || values.minutes < MIN_MINUTES || values.minutes > MAX_MINUTES) {
+  if (
+    !Number.isInteger(values.minutes) ||
+    values.minutes < MIN_MINUTES ||
+    values.minutes > MAX_MINUTES
+  ) {
     return {
       message: `Time must be a whole number from ${MIN_MINUTES} to ${MAX_MINUTES} minutes.`,
       field: minutesInput,
@@ -269,7 +312,7 @@ function handleListClick(event) {
   }
 
   if (button.dataset.action === "delete") {
-    deleteTask(id);
+    requestDelete(id);
   }
 }
 
@@ -357,6 +400,8 @@ function bindEvents() {
   toggleButton.addEventListener("click", handleToggleClick);
   cancelButton.addEventListener("click", cancelEdit);
   document.addEventListener("pointerdown", handleDocumentPointerDown);
+  confirmDialog.addEventListener("close", handleConfirmClose);
+  confirmDialog.addEventListener("click", handleConfirmBackdropClick);
 
   list.addEventListener("click", handleListClick);
   list.addEventListener("change", handleListChange);

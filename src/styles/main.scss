@@ -1,9 +1,12 @@
 @use "utils/vars" as *;
+@use "utils/animations";
 @use "components/cards";
 @use "components/sidebar";
 @use "components/header";
 @use "components/calendar";
 @use "components/tasks";
+@use "components/timer";
+
 // Reset
 *,
 *::before,

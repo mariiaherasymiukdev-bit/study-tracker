@@ -659,6 +659,7 @@
                       cx="100"
                       cy="100"
                       r="90"
+                      stroke="url(#timer-gradient)"
                     />
                   </svg>
 
@@ -737,6 +738,30 @@
         </div>
       </main>
     </div>
+
+    <dialog
+      class="confirm"
+      id="confirm-dialog"
+      aria-labelledby="confirm-title"
+      aria-describedby="confirm-text"
+    >
+      <form class="confirm__form" method="dialog">
+        <h2 class="confirm__title" id="confirm-title">Delete task?</h2>
+        <p class="confirm__text" id="confirm-text"></p>
+        <div class="confirm__actions">
+          <button class="confirm__button" type="submit" value="cancel">
+            Cancel
+          </button>
+          <button
+            class="confirm__button confirm__button--danger"
+            type="submit"
+            value="delete"
+          >
+            Delete
+          </button>
+        </div>
+      </form>
+    </dialog>
 
     <!-- Шаблон одного завдання: tasks.js клонує його -->
     <template id="task-template">

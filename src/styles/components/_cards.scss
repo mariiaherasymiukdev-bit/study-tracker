@@ -12,6 +12,31 @@
   padding: 1.5rem;
 }
 
+// Мотиваційна картка: перекриває спільний фон і відступ
+.motivation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba($color-violet, 0.35), rgba($color-pink, 0.45));
+
+  &__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: $color-gold;
+  }
+
+  &__title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
 // Статистика
 .stats {
   display: grid;

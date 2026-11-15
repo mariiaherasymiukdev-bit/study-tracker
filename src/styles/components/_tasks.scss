@@ -1,15 +1,44 @@
 @use "sass:list";
 @use "../utils/vars" as *;
+@use "../utils/mixins" as *;
 
 // [градієнт від, градієнт до, колір тексту]
 $badge-colors: (
-  javascript: (#f7df1e, #e5b800, #000),
-  react: (#61dafb, #2196c4, #000),
-  html: (#ff8a65, #e64a19, #fff),
-  css: (#64b5f6, #1976d2, #fff),
-  english: (#ce93d8, #8e24aa, #fff),
-  project: (#a8b8ff, #be7eff, #fff),
-  other: (#b0bec5, #78909c, #fff)
+  javascript: (
+    #f6e08a,
+    #e8c25e,
+    #2e2400,
+  ),
+  react: (
+    #8fb4f5,
+    #6f95e0,
+    #0b1b40,
+  ),
+  html: (
+    #f5b48a,
+    #ea9468,
+    #3a1704,
+  ),
+  css: (
+    #b6a2f7,
+    #9a86e8,
+    #1c1040,
+  ),
+  english: (
+    #a6e3a0,
+    #7fcf8e,
+    #0c2a14,
+  ),
+  project: (
+    #f5a6c8,
+    #e88bb3,
+    #3a0d24,
+  ),
+  other: (
+    #c3cdfa,
+    #a9b6ee,
+    #14183f,
+  ),
 );
 
 .tasks {
@@ -307,6 +336,72 @@ $badge-colors: (
     &:hover {
       background: $glass-bg-strong;
       color: $color-text;
+    }
+  }
+}
+
+// ---------- Підтвердження видалення ----------
+
+.confirm {
+  @include glass;
+
+  width: min(24rem, calc(100% - 2rem));
+  padding: 0;
+  color: $color-text;
+  background:
+    radial-gradient(circle at 0 0, rgba($color-purple, 0.25), transparent 60%),
+    rgba($color-bg, 0.6);
+
+  &::backdrop {
+    background: rgba($color-bg, 0.6);
+    backdrop-filter: blur(6px);
+  }
+
+  &__form {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  &__text {
+    color: $color-text-muted;
+    overflow-wrap: anywhere;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  &__button {
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    font-weight: 600;
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    border-radius: $radius-pill;
+    transition:
+      background $transition,
+      border-color $transition;
+
+    &:hover {
+      border-color: $glass-border-strong;
+    }
+
+    &--danger {
+      background: linear-gradient(135deg, rgba($color-pink, 0.5), rgba($color-purple, 0.5));
+      border-color: rgba($color-rose, 0.6);
+
+      &:hover {
+        background: linear-gradient(135deg, rgba($color-pink, 0.65), rgba($color-purple, 0.65));
+      }
     }
   }
 }
