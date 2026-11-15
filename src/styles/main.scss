@@ -3,7 +3,7 @@
 @use "components/sidebar";
 @use "components/header";
 @use "components/calendar";
-
+@use "components/tasks";
 // Reset
 *,
 *::before,
@@ -45,7 +45,15 @@ button {
   cursor: pointer;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 // Base
+html {
+  color-scheme: dark;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
